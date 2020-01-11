@@ -33,11 +33,7 @@ class RobotPaths {
 
     const findPath = (row, col) => {
       if (this.size === row && this.size === col) {
-        console.log(this.board.board);
         path++;
-        return;
-      }
-      if (row < 0 || this.size < row || col < 0 || this.size < col) {
         return;
       }
       this.board.togglePiece(row, col);
