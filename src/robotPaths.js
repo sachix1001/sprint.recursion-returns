@@ -23,41 +23,44 @@ class RobotPaths {
   // you may want to change this code later on, too
   constructor(size) {
     this.board = new Board(size);
+    this.size = size - 1;
     this.row = 0;
     this.col = 0;
   }
 
   solve() {
-    let count = 0;
-    const board = this.board;
+    let path = 0;
 
-    function findPath(row, col) {
-      console.log(row, col);
-      if (board.board.length === row && board.board.length === col) {
-        count++;
+    const findPath = (row, col) => {
+      if (this.size === row && this.size === col) {
+        path++;
         return;
       }
-      // if (row > 0 || board.length > row || col > 0 || board.length > col) {
-      if (!board.hasBeenVisited(row, col)) {
-        board.togglePiece(row, col);
-        findPath(row + 1, col);
+      if (row < 0 || this.size < row || col < 0 || this.size < col) {
+        return;
       }
-      if (!board.hasBeenVisited(row, col)) {
-        findPath(row, col + 1);
-        findPath(row + 1, col);
+      this.board.togglePiece(row, col);
+
+      const left = row - 1;
+      const right = row + 1;
+      const up = col - 1;
+      const down = col + 1;
+      if (left >= 0 && !this.board.hasBeenVisited(left, col)) {
+        findPath(left, col);
       }
-      if (!board.hasBeenVisited(row, col)) {
-        board.togglePiece(row, col);
-        findPath(row - 1, col);
+      if (right <= this.size && !this.board.hasBeenVisited(right, col)) {
+        findPath(right, col);
       }
-      if (!board.hasBeenVisited(row, col)) {
-        board.togglePiece(row, col);
-        findPath(row, col - 1);
+      if (up >= 0 && !this.board.hasBeenVisited(row, up)) {
+        findPath(row, up);
       }
-      // }
-    }
+      if (down <= this.size && !this.board.hasBeenVisited(row, down)) {
+        findPath(row, down);
+      }
+      this.board.togglePiece(row, col);
+    };
     findPath(0, 0);
-    return count;
+    return path;
   }
 }
 
