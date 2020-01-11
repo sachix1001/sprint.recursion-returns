@@ -33,6 +33,7 @@ class RobotPaths {
 
     const findPath = (row, col) => {
       if (this.size === row && this.size === col) {
+        console.log(this.board.board);
         path++;
         return;
       }
