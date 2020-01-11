@@ -28,7 +28,36 @@ class RobotPaths {
   }
 
   solve() {
-    // Your code here.
+    let count = 0;
+    const board = this.board;
+
+    function findPath(row, col) {
+      console.log(row, col);
+      if (board.board.length === row && board.board.length === col) {
+        count++;
+        return;
+      }
+      // if (row > 0 || board.length > row || col > 0 || board.length > col) {
+      if (!board.hasBeenVisited(row, col)) {
+        board.togglePiece(row, col);
+        findPath(row + 1, col);
+      }
+      if (!board.hasBeenVisited(row, col)) {
+        findPath(row, col + 1);
+        findPath(row + 1, col);
+      }
+      if (!board.hasBeenVisited(row, col)) {
+        board.togglePiece(row, col);
+        findPath(row - 1, col);
+      }
+      if (!board.hasBeenVisited(row, col)) {
+        board.togglePiece(row, col);
+        findPath(row, col - 1);
+      }
+      // }
+    }
+    findPath(0, 0);
+    return count;
   }
 }
 
